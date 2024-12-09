@@ -6,6 +6,7 @@ import taskRoutes from "./routes/taskRoutes.js";
 import viewsRoutes from "./routes/viewsRoutes.js";
 import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
+import path from "path";
 
 dotenv.config();
 connectDB();
@@ -13,6 +14,9 @@ const app = express();
 app.use(methodOverride("_method"));
 app.set("view engine", "ejs");
 
+// app.set("views", "./views");
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
+console.log(path.join(__dirname, "views"));
 app.set("views", "./views");
 app.use(cookieParser());
 app.use(express.static("public"));
