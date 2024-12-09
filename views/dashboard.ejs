@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taskify</title>
+    <link href="/css/tailwind.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="/js/script.js"></script>
+</head>
+
+<body class="bg-gray-100 text-gray-900 h-screen flex items-center justify-center">
+    <div class="bg-white rounded-2xl p-3 w-full sm:w-10/12 lg:w-8/12 xl:w-7/12">
+        <div class="flex flex-col lg:flex-row justify-center ">
+            <div class="hidden lg:block bg-gray-100 rounded-2xl w-full lg:w-5/12 mb-4 lg:mb-0">
+                <img src="/images/tasks.svg" class="w-full h-auto" alt="Tasks svg" />
+            </div>
+            <div class="bg-white h-full px-5 lg:px-10 lg:w-7/12">
+                <div class="flex flex-row justify-between items-center mb-3">
+                    <h1 class="text-4xl sm:text-5xl font-extrabold text-blue-600 mb-4 sm:mb-0">Taskify</h1>
+                    <a class="bg-red-500 text-white px-3 py-2 rounded" href="/auth/logout">Logout</a>
+                </div>
+
+                <form action="/tasks" method="POST" class="mb-10 md:mb-5">
+                    <div class="flex flex-col sm:flex-row items-center gap-2">
+                        <input class="border-2 border-gray-300 rounded-lg flex-grow p-2 focus:outline-none w-full sm:w-auto"
+                            type="text" placeholder="Graduate from altschool" name="name" />
+                        <button type="submit"
+                            class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
+                            Add Task
+                        </button>
+                    </div>
+                    <input type="text" hidden name="userId" value="<%= user._id %>">
+                </form>
+
+                <% if (tasks.length > 0) { %>
+                    <div class="flex flex-wrap gap-4 items-center my-3">
+                        <p class="text-xl font-semibold">Filter Tasks:</p>
+                        <a href="/tasks/<%= user._id %>?status=all"
+                            class="bg-blue-600 text-white px-3 py-1 rounded">All</a>
+                        <a href="/tasks/<%= user._id %>?status=pending"
+                            class="bg-yellow-600 text-white px-3 py-1 rounded">Pending</a>
+                        <a href="/tasks/<%= user._id %>?status=completed"
+                            class="bg-green-800 text-white px-3 py-1 rounded">Completed</a>
+                        <a href="/tasks/<%= user._id %>?status=deleted"
+                            class="bg-red-700 text-white px-3 py-1 rounded">Archived</a>
+                    </div>
+                    <ul class="space-y-2 overflow-y-scroll h-96 md:h-72 mt-8 md:mt-0">
+                        <% filteredTasks.forEach((task) => { %>
+                            <li
+                                class="border py-3 px-4 rounded-lg flex flex-col sm:flex-row justify-between items-center bg-white shadow-md">
+                                <div class="text-center sm:text-left">
+                                    <p
+                                        class="<%= task.status === 'completed' || task.status === 'deleted' ? 'line-through text-gray-500' : 'text-black' %> font-medium">
+                                        <%= task.name %>
+                                    </p>
+                                    <span
+                                        class="text-sm <%= task.status === 'completed' ? 'text-green-500' : task.status === 'pending' ? 'text-yellow-500' : 'text-red-500' %>">
+                                        <%= task.status === 'completed' ? 'Completed' : task.status === 'pending' ? 'Pending' : 'Archived' %>
+                                    </span>
+                                </div>
+                                <div class="flex space-x-2 mt-2 sm:mt-0">
+                                    <% if (task.status !== 'completed' && task.status !== 'deleted') { %>
+                                        <form action="/tasks?_method=PUT" method="POST">
+                                            <input type="text" name="id" value="<%= task._id %>" hidden>
+                                            <input type="text" name="status" value="completed" hidden>
+                                            <button type="submit"
+                                                class="text-green-500 hover:text-green-600 transition transform hover:scale-110"
+                                                title="Mark as Complete">
+                                                <i class="fas fa-check-circle text-2xl"></i>
+                                            </button>
+                                        </form>
+                                    <% } %>
+                                    <% if (task.status !== 'deleted') { %>
+                                        <form action="/tasks?_method=PUT" method="POST">
+                                            <input type="text" name="id" value="<%= task._id %>" hidden>
+                                            <input type="text" name="status" value="deleted" hidden>
+                                            <button type="submit"
+                                                class="text-red-500 hover:text-red-600 transition transform hover:scale-110"
+                                                title="Delete Task">
+                                                <i class="fas fa-trash-alt text-2xl"></i>
+                                            </button>
+                                        </form>
+                                    <% } %>
+                                    <% if (task.status === 'deleted') { %>
+                                        <form action="/tasks?_method=PUT" method="POST">
+                                            <input type="text" name="id" value="<%= task._id %>" hidden>
+                                            <input type="text" name="status" value="completed" hidden>
+                                            <button type="submit"
+                                                class="text-green-500 hover:text-green-600 transition transform hover:scale-110"
+                                                title="Restore Task">
+                                                <i class="fas fa-undo-alt text-2xl"></i>
+                                            </button>
+                                        </form>
+                                    <% } %>
+                                </div>
+                            </li>
+                        <% }); %>
+                    </ul>
+                <% } else { %>
+                    <p class="text-gray-500 text-center mt-4 font-medium">
+                        <%= message %>
+                    </p>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

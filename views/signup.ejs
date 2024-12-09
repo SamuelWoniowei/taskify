@@ -1,0 +1,37 @@
+<%- include('partials/header') %>
+
+<body class="bg-gray-100 text-gray-900 h-screen flex items-center justify-center">
+    <div class="bg-white rounded-2xl p-3">
+        <div class="flex flex-col md:flex-row justify-center items-center">
+            <div class="bg-gray-100 rounded-2xl w-5/12">
+                <img src="/images/tasks.svg" class="lg:h-[470px] lg:w-96" alt="Tasks svg" />
+            </div>
+            <div class="bg-white mt-4 md:mt-0 h-full px-6 lg:px-28 md:w-7/12">
+                <h1 class="text-3xl md:text-4xl font-extrabold text-center text-blue-600 mb-4">Welcome to Taskify</h1>
+                <h2 class="text-xl text-center text-gray-800 leading-tight text-wrap">Your Ultimate Task
+                    Management Solution</h2>
+
+                <% if (typeof message !=='undefined' ) { %>
+                    <div class="error-message text-red-600 mt-4 mb-2">
+                        <p>
+                            <%= message %>
+                        </p>
+                    </div>
+                    <% } %>
+                        <p class="pb-3 mt-7 text-3xl font-light">Sign Up</p>
+                        <form action="/auth/register" method="POST" class=" flex flex-col gap-4">
+                            <input type="text" name="username" placeholder="Enter your username"
+                                class="p-2 bg-gray-100 outline-none text-black" />
+                            <input type="password" name="password" placeholder="Enter your password"
+                                class="p-2 bg-gray-100 outline-none text-black" />
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 py-2 rounded text-white "> Sign
+                                Up
+                            </button>
+                        </form>
+                        <p class="mt-3 text-center text-sm">Already on Taskify? <a class="text-blue-600" href="/">login</a></p>
+            </div>
+        </div>
+        </di>
+</body>
+
+</html>
