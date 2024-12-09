@@ -5,6 +5,7 @@ import {
   updateTask,
 } from "../controllers/taskController.js";
 import verifyToken from "../middleware/verifyToken.js";
+import Task from "../models/task.js";
 
 const router = express.Router();
 

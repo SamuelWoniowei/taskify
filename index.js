@@ -27,7 +27,7 @@ app.get("*", (req, res) => {
   res.status(404).send("Opps, looks like you landed on the wrong page");
 });
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () =>
   console.log(`server is running smoothly on PORT ${PORT}`)
 );
