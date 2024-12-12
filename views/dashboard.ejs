@@ -35,17 +35,19 @@
                     <input type="text" hidden name="userId" value="<%= user._id %>">
                 </form>
 
+                <div class="flex flex-wrap gap-4 items-center my-3 ">
+                    <a href="/tasks/<%= user._id %>?status=all"
+                        class="bg-blue-600 text-white px-3 py-1 rounded">All</a>
+                    <a href="/tasks/<%= user._id %>?status=pending"
+                        class="bg-yellow-600 text-white px-3 py-1 rounded">Pending</a>
+                    <a href="/tasks/<%= user._id %>?status=completed"
+                        class="bg-green-800 text-white px-3 py-1 rounded">Completed</a>
+                    <a href="/tasks/<%= user._id %>?status=deleted"
+                        class="bg-red-700 text-white px-3 py-1 rounded">Archived</a>
+                </div>
+
                 <% if (tasks.length> 0) { %>
-                    <div class="flex flex-wrap gap-4 items-center my-3 ">
-                        <a href="/tasks/<%= user._id %>?status=all"
-                            class="bg-blue-600 text-white px-3 py-1 rounded">All</a>
-                        <a href="/tasks/<%= user._id %>?status=pending"
-                            class="bg-yellow-600 text-white px-3 py-1 rounded">Pending</a>
-                        <a href="/tasks/<%= user._id %>?status=completed"
-                            class="bg-green-800 text-white px-3 py-1 rounded">Completed</a>
-                        <a href="/tasks/<%= user._id %>?status=deleted"
-                            class="bg-red-700 text-white px-3 py-1 rounded">Archived</a>
-                    </div>
+                    
                     <ul class="space-y-2 overflow-y-scroll h-96 md:h-72 mt-8 md:mt-0">
                         <% tasks.forEach((task)=> { %>
                             <li

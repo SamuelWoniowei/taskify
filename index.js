@@ -14,9 +14,7 @@ const app = express();
 app.use(methodOverride("_method"));
 app.set("view engine", "ejs");
 
-// app.set("views", "./views");
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
-console.log(path.join(__dirname, "views"));
 app.set("views", "./views");
 app.use(cookieParser());
 app.use(express.static("public"));
@@ -26,7 +24,6 @@ app.use(express.json());
 app.use("/auth", authRoutes);
 app.use("/tasks", taskRoutes);
 app.use("/", viewsRoutes);
-
 app.get("*", (req, res) => {
   res.status(404).send("Opps, looks like you landed on the wrong page");
 });

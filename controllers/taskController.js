@@ -3,7 +3,6 @@ import Task from "../models/task.js";
 
 export const addTask = async (req, res) => {
   const { userId, name } = req.body;
-  console.log(req.body);
   try {
     const task = await new Task({
       userId,
@@ -26,14 +25,22 @@ export const getUserTasks = async (req, res) => {
     return res.status(400).json({ message: "Invalid ID format" });
   }
 
-  const userId = id; 
-
   try {
-    const tasks = await Task.find({userId}).sort({ createdAt: -1 });
+    let filter = { userId: id };
+
+    if (status && status !== "all") {
+      filter.status = status;
+    }
+
+    const tasks = await Task.find(filter).sort({ createdAt: -1 });
+
+    const message = tasks.length === 0 ? "No tasks found for this filter" : "";
+
     res.render("dashboard", {
       tasks,
       status,
-      message: tasks.length === 0 ? "No tasks found" : "",
+      message,
+
     });
   } catch (error) {
     console.error(error);

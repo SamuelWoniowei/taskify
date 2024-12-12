@@ -51,9 +51,9 @@ export const register = async (req, res) => {
       password,
     });
     await user.save();
-    res.status(201).json({ message: "User successfully created" });
+    res.status(201).redirect("/");
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Something went wrong" });
+    res.status(500).render("signup", { message: "Something went wrong" });
   }
 };
