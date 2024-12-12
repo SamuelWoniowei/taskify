@@ -15,7 +15,7 @@ app.use(methodOverride("_method"));
 app.set("view engine", "ejs");
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
-app.set("views", "./views");
+app.set("views", path.join(__dirname, "views"));
 app.use(cookieParser());
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
